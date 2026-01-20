@@ -2,9 +2,12 @@
 
 A Python-based **Loan Comparison System** that helps users calculate EMI, generate amortization schedules, store loan details in MySQL, and compare multiple loans based on total interest and total payment.
 
+🌐 Live Demo (Web App): https://loan-comparison.vercel.app
+⚙️ Backend API: https://loan-comparison.onrender.com
+
 ---
 
-## 📌 Features
+## Features
 
 * Calculate **EMI (Equated Monthly Installment)**
 * Generate **loan amortization schedule**
@@ -15,7 +18,7 @@ A Python-based **Loan Comparison System** that helps users calculate EMI, genera
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 * **Python 3**
 * **MySQL**
@@ -23,7 +26,7 @@ A Python-based **Loan Comparison System** that helps users calculate EMI, genera
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 Loan-Comparison/
@@ -34,18 +37,18 @@ Loan-Comparison/
 
 ---
 
-## ⚙️ Database Setup
+## Database Setup
 
 Create a MySQL database and table before running the project.
 
-### 1️⃣ Create Database
+### 1. Create Database
 
 ```sql
 CREATE DATABASE loan_project;
 USE loan_project;
 ```
 
-### 2️⃣ Create Table
+### 2. Create Table
 
 ```sql
 CREATE TABLE loans (
@@ -62,7 +65,7 @@ CREATE TABLE loans (
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 Update your MySQL credentials in the code if needed:
 
@@ -77,7 +80,7 @@ mysql.connector.connect(
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 1. Install required library:
 
@@ -102,7 +105,7 @@ python loan_comparison.py
 
 ---
 
-## 📊 Sample Output
+## Sample Output
 
 ```
 --- Loan Summary ---
@@ -115,7 +118,7 @@ Total Payment: 4850023.40
 ### Loan Comparison Output
 
 ```
-🔍 LOAN COMPARISON
+LOAN COMPARISON
 
 Loan: Home Loan
 EMI: 23500.45
@@ -125,7 +128,7 @@ Total Payment: 4850023.40
 
 ---
 
-## 🚀 Future Improvements
+## Future Improvements
 
 * Add **GUI (Tkinter / Web App)**
 * Export results to **CSV or PDF**
@@ -135,14 +138,14 @@ Total Payment: 4850023.40
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Your Name**
 GitHub: [https://github.com/kashishyadav2706](https://github.com/kashishyadav2706)
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **MIT License**.
 Feel free to use, modify, and distribute.
