@@ -8,6 +8,12 @@
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
   <style>
     * {
       box-sizing: border-box;
@@ -93,24 +99,61 @@
       display: none;
     }
 
-    .emoji {
+    footer {
+      margin-top: 20px;
       text-align: center;
-      font-size: 28px;
-      margin-bottom: 10px;
+      font-size: 12px;
+      opacity: 0.8;
     }
 
-    footer {
-      text-align: center;
-      margin-top: 18px;
-      font-size: 12px;
-      opacity: 0.7;
+    .socials {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .socials a {
+      color: #cbd5f5;
+      font-size: 20px;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .socials a:hover {
+      color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
+    /* 📱➡️💻 Responsive Design */
+    @media (min-width: 768px) {
+      .glass {
+        width: 420px;
+        padding: 35px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      input, button {
+        font-size: 15px;
+      }
+
+      .result {
+        font-size: 15px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .glass {
+        width: 480px;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="glass">
-    <div class="emoji"></div>
     <h1>Loan Calculator</h1>
 
     <input id="p" type="number" placeholder="💰 Principal Amount">
@@ -122,7 +165,15 @@
     <div id="result" class="result"></div>
 
     <footer>
-      Built by Kashish Yadav⚡ |
+      Built by <b>Kashish Yadav</b> ⚡
+      <div class="socials">
+        <a href="https://github.com/kashishyadav2706" target="_blank" title="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/kashish-yadav228/" target="_blank" title="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </div>
     </footer>
   </div>
 
@@ -132,7 +183,6 @@
     const rate = r.value;
     const tenure = t.value;
 
-    // 🚨 Validation
     if (!principal || !rate || !tenure) {
       result.style.display = "block";
       result.innerHTML = "⚠️ Please fill all fields";
@@ -171,6 +221,3 @@
 </script>
 </body>
 </html>
-
-
-
