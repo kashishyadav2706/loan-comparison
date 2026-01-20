@@ -1,4 +1,7 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+CORS(app)
+
 
 app = Flask(__name__)
 
@@ -26,3 +29,4 @@ def calculate():
 
 if __name__ == "__main__":
     app.run()
+
