@@ -126,32 +126,48 @@
     </footer>
   </div>
 
-  <script>
-    function calculate() {
-      fetch("https://loan-comparison.onrender.com/calculate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          principal: p.value,
-          rate: r.value,
-          tenure: t.value
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        result.style.display = "block";
-        result.innerHTML = `
-          💵 EMI: <b>₹${data.emi}</b><br>
-          🔥 Total Interest: ₹${data.total_interest}<br>
-          🧾 Total Payment: ₹${data.total_payment}
-        `;
-      })
-      .catch(() => {
-        result.style.display = "block";
-        result.innerHTML = "⚠️ Backend not responding";
-      });
+<script>
+  function calculate() {
+    const principal = p.value;
+    const rate = r.value;
+    const tenure = t.value;
+
+    // 🚨 Validation
+    if (!principal || !rate || !tenure) {
+      result.style.display = "block";
+      result.innerHTML = "⚠️ Please fill all fields";
+      return;
     }
-  </script>
+
+    fetch("https://loan-comparison.onrender.com/calculate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        principal: Number(principal),
+        rate: Number(rate),
+        tenure: Number(tenure)
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        result.style.display = "block";
+        result.innerHTML = "⚠️ " + data.error;
+        return;
+      }
+
+      result.style.display = "block";
+      result.innerHTML = `
+        💵 EMI: <b>₹${data.emi}</b><br>
+        🔥 Total Interest: ₹${data.total_interest}<br>
+        🧾 Total Payment: ₹${data.total_payment}
+      `;
+    })
+    .catch(() => {
+      result.style.display = "block";
+      result.innerHTML = "⚠️ Backend not responding";
+    });
+  }
+</script>
 </body>
 </html>
-
