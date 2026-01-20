@@ -2,7 +2,7 @@
 
 A Python-based **Loan Comparison System** that helps users calculate EMI, generate amortization schedules, store loan details in MySQL, and compare multiple loans based on total interest and total payment.
 
-🌐 Live Demo (Web App): https://loan-comparison.vercel.app
+🌐 Live Demo (Web App): [https://loan-comparison.vercel.app](https://loan-comparison-zeta.vercel.app/)
 ⚙️ Backend API: https://loan-comparison.onrender.com
 
 ---
