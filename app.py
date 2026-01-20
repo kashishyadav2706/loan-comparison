@@ -1,9 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-CORS(app)
-
 
 app = Flask(__name__)
+CORS(app)
 
 def calculate_emi(P, R, T):
     R = R / (12 * 100)
@@ -20,13 +19,19 @@ def calculate_emi(P, R, T):
 
 @app.route("/calculate", methods=["POST"])
 def calculate():
-    data = request.json
-    P = float(data["principal"])
-    R = float(data["rate"])
-    T = int(data["tenure"])
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "No JSON data received"}), 400
+
+    try:
+        P = float(data.get("principal"))
+        R = float(data.get("rate"))
+        T = int(data.get("tenure"))
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid or missing input fields"}), 400
 
     return jsonify(calculate_emi(P, R, T))
 
 if __name__ == "__main__":
     app.run()
-
