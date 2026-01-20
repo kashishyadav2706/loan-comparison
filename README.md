@@ -1,4 +1,4 @@
-# Loan Comparison System 💰📊
+# Loan Comparison System
 
 A Python-based **Loan Comparison System** that helps users calculate EMI, generate amortization schedules, store loan details in MySQL, and compare multiple loans based on total interest and total payment.
 
