@@ -38,7 +38,7 @@
     }
 
     .glass {
-      width: 380px;
+      width: 420px;
       padding: 26px;
       border-radius: 18px;
       background: rgba(255,255,255,0.08);
@@ -47,7 +47,7 @@
     }
 
     body.light .glass {
-      background: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.9);
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
 
@@ -65,15 +65,18 @@
       color: #020617;
     }
 
+    /* 🔝 Top Bar Fix */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
     select {
-      padding: 6px;
+      width: 120px;
+      padding: 6px 8px;
       border-radius: 8px;
       border: none;
       outline: none;
@@ -90,6 +93,7 @@
       color: #fff;
     }
 
+    body.light select,
     body.light input {
       background: rgba(0,0,0,0.06);
       color: #020617;
@@ -107,18 +111,16 @@
       color: #020617;
     }
 
-    .result {
+    .box {
       margin-top: 12px;
-      font-size: 14px;
-      background: rgba(0,0,0,0.3);
       padding: 12px;
       border-radius: 12px;
-      display: none;
+      font-size: 14px;
+      background: rgba(0,0,0,0.3);
     }
 
-    body.light .result {
+    body.light .box {
       background: rgba(0,0,0,0.06);
-      color: #020617;
     }
 
     .actions {
@@ -132,7 +134,6 @@
       font-size: 13px;
     }
 
-    /* 🔥 CHART FIX */
     .charts {
       display: none;
       margin-top: 14px;
@@ -161,138 +162,169 @@
       color: inherit;
       font-size: 20px;
     }
-
-    /* 💻 Desktop tightening */
-    @media (min-width: 768px) {
-      .glass { width: 440px; }
-      canvas { max-height: 200px; }
-      footer { margin-top: 10px; }
-    }
   </style>
 </head>
 
 <body>
-  <div class="glass">
-    <div class="top-bar">
-      <select id="currency">
-        <option value="₹">₹ INR</option>
-        <option value="$">$ USD</option>
-        <option value="€">€ EUR</option>
-      </select>
-      <span style="cursor:pointer" onclick="toggleTheme()">🌗</span>
-    </div>
-
-    <h1>Loan Calculator</h1>
-
-    <input id="p" type="number" placeholder="Principal Amount">
-    <input id="r" type="number" placeholder="Interest Rate (%)">
-    <input id="t" type="number" placeholder="Tenure (Years)">
-
-    <button onclick="calculate()">Calculate EMI 🚀</button>
-
-    <div id="result" class="result"></div>
-
-    <div class="actions">
-      <button onclick="exportCSV()">Export CSV</button>
-      <button onclick="exportPDF()">Export PDF</button>
-    </div>
-
-    <!-- ✅ Charts wrapped -->
-    <div class="charts" id="charts">
-      <canvas id="donutChart"></canvas>
-      <canvas id="barChart"></canvas>
-    </div>
-
-    <footer>
-      Built by <b>Kashish Yadav</b> ⚡
-      <div class="socials">
-        <a href="https://github.com/kashishyadav2706" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/kashish-yadav228/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      </div>
-    </footer>
+<div class="glass">
+  <div class="top-bar">
+    <select id="currency">
+      <option value="₹">₹ INR</option>
+      <option value="$">$ USD</option>
+      <option value="€">€ EUR</option>
+    </select>
+    <span style="cursor:pointer;font-size:18px" onclick="toggleTheme()">🌗</span>
   </div>
 
+  <h1>Loan Calculator</h1>
+
+  <input id="p" type="number" placeholder="Principal Amount">
+  <input id="r" type="number" placeholder="Interest Rate (%)">
+  <input id="t" type="number" placeholder="Tenure (Years)">
+
+  <button onclick="calculate()">Calculate EMI 🚀</button>
+
+  <div id="result" class="box" style="display:none"></div>
+  <div id="insights" class="box" style="display:none"></div>
+  <div id="advisor" class="box" style="display:none"></div>
+
+  <div class="actions">
+    <button onclick="exportCSV()">Export CSV</button>
+    <button onclick="exportPDF()">Export PDF</button>
+  </div>
+
+  <div class="charts" id="charts">
+    <canvas id="donutChart"></canvas>
+  </div>
+
+  <footer>
+    Built by <b>Kashish Yadav</b> ⚡
+    <div class="socials">
+      <a href="https://github.com/kashishyadav2706" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/kashish-yadav228/" target="_blank"><i class="fab fa-linkedin"></i></a>
+    </div>
+  </footer>
+</div>
+
 <script>
-  let donut, bar, latestData;
+let donut, latestData;
 
-  function toggleTheme() {
-    document.body.classList.toggle("light");
-  }
+function toggleTheme() {
+  document.body.classList.toggle("light");
+}
 
-  function calculate() {
-    fetch("https://loan-comparison.onrender.com/calculate", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        principal: Number(p.value),
-        rate: Number(r.value),
-        tenure: Number(t.value)
-      })
+function calculate() {
+  fetch("https://loan-comparison.onrender.com/calculate", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      principal: Number(p.value),
+      rate: Number(r.value),
+      tenure: Number(t.value)
     })
-    .then(res => res.json())
-    .then(data => {
-      latestData = data;
-      charts.style.display = "block";
+  })
+  .then(res => res.json())
+  .then(data => {
+    latestData = data;
 
-      const sym = currency.value;
-      result.style.display = "block";
-      result.innerHTML = `
-        💵 EMI: <b>${sym}${data.emi}</b><br>
-        🔥 Total Interest: ${sym}${data.total_interest}<br>
-        🧾 Total Payment: ${sym}${data.total_payment}
-      `;
+    result.style.display = insights.style.display = advisor.style.display = charts.style.display = "block";
 
-      renderCharts(data.total_interest, data.total_payment - data.total_interest);
-    });
+    const sym = currency.value;
+    result.innerHTML = `
+      💵 EMI: <b>${sym}${data.emi}</b><br>
+      🔥 Total Interest: ${sym}${data.total_interest}<br>
+      🧾 Total Payment: ${sym}${data.total_payment}
+    `;
+
+    renderInsights();
+    renderAdvisor();
+    renderChart(data.total_interest, data.total_payment - data.total_interest);
+  });
+}
+
+function renderInsights() {
+  const interestPct = ((latestData.total_interest / latestData.total_payment) * 100).toFixed(1);
+  insights.innerHTML = `
+    🧠 <b>Smart Insights</b><br><br>
+    ⚠️ Interest is <b>${interestPct}%</b> of total payment<br>
+    📉 Reducing tenure by 2 years may save ~<b>${currency.value}${(latestData.total_interest * 0.12).toFixed(0)}</b><br>
+    💡 EMI may rise ~<b>${currency.value}${(latestData.emi * 0.08).toFixed(0)}</b> if rate increases 1%
+  `;
+}
+
+function renderAdvisor() {
+  let tips = [];
+
+  const rate = Number(r.value);
+  const tenure = Number(t.value);
+  const interestRatio = latestData.total_interest / latestData.total_payment;
+
+  // 🔴 High interest rate
+  if (rate >= 11) {
+    tips.push("⚠️ Your interest rate is quite high. Consider negotiating or refinancing.");
+  } else if (rate >= 9) {
+    tips.push("📉 You may get better rates from other lenders.");
   }
 
-  function renderCharts(interest, principal) {
-    if (donut) donut.destroy();
-    if (bar) bar.destroy();
-
-    donut = new Chart(donutChart, {
-      type: "doughnut",
-      data: {
-        labels: ["Interest", "Principal"],
-        datasets: [{
-          data: [interest, principal],
-          backgroundColor: ["#ef4444", "#22c55e"]
-        }]
-      }
-    });
-
-    bar = new Chart(barChart, {
-      type: "bar",
-      data: {
-        labels: ["Principal", "Interest"],
-        datasets: [{
-          data: [principal, interest],
-          backgroundColor: ["#22c55e", "#ef4444"]
-        }]
-      }
-    });
+  // 🟠 Long tenure
+  if (tenure >= 20) {
+    tips.push("⏳ Long tenure detected. Interest outflow will be high over time.");
+  } else if (tenure >= 12) {
+    tips.push("💡 Prepayment in early years can significantly reduce interest.");
   }
 
-  function exportCSV() {
-    if (!latestData) return;
-    const csv = `EMI,${latestData.emi}\nTotal Interest,${latestData.total_interest}\nTotal Payment,${latestData.total_payment}`;
-    const blob = new Blob([csv], { type: "text/csv" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "loan-summary.csv";
-    a.click();
+  // 🔥 Interest burden
+  if (interestRatio >= 0.6) {
+    tips.push("🔥 Interest forms more than 60% of total payment. Strongly consider prepayments.");
+  } else if (interestRatio >= 0.45) {
+    tips.push("📊 Interest burden is moderate. Occasional lump-sum payments can help.");
   }
 
-  function exportPDF() {
-    if (!latestData) return;
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
-    pdf.text("Loan Summary", 20, 20);
-    pdf.text(`EMI: ${latestData.emi}`, 20, 40);
-    pdf.text(`Total Interest: ${latestData.total_interest}`, 20, 55);
-    pdf.text(`Total Payment: ${latestData.total_payment}`, 20, 70);
-    pdf.save("loan-summary.pdf");
+  // 🟢 Fallback only if truly healthy
+  if (tips.length === 0) {
+    tips.push("✅ Your loan structure looks balanced. Maintain timely payments and review annually.");
   }
+
+  advisor.innerHTML = `
+    🤖 <b>AI Loan Advisor</b><br><br>
+    ${tips.map(t => `• ${t}`).join("<br>")}
+  `;
+}
+
+function renderChart(interest, principal) {
+  if (donut) donut.destroy();
+  donut = new Chart(donutChart, {
+    type: "doughnut",
+    data: {
+      labels: ["Interest", "Principal"],
+      datasets: [{
+        data: [interest, principal],
+        backgroundColor: ["#ef4444", "#22c55e"]
+      }]
+    }
+  });
+}
+
+function exportCSV() {
+  if (!latestData) return;
+  const csv = `EMI,${latestData.emi}\nTotal Interest,${latestData.total_interest}\nTotal Payment,${latestData.total_payment}`;
+  const blob = new Blob([csv], { type: "text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "loan-summary.csv";
+  a.click();
+}
+
+function exportPDF() {
+  if (!latestData) return;
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
+  pdf.text("Loan Summary", 20, 20);
+  pdf.text(`EMI: ${latestData.emi}`, 20, 40);
+  pdf.text(`Total Interest: ${latestData.total_interest}`, 20, 55);
+  pdf.text(`Total Payment: ${latestData.total_payment}`, 20, 70);
+  pdf.save("loan-summary.pdf");
+}
 </script>
 </body>
 </html>
