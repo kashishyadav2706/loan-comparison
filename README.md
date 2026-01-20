@@ -138,7 +138,7 @@ Total Payment: 4850023.40
 ## 👨‍💻 Author
 
 **Your Name**
-GitHub: [https://github.com/yourusername](https://github.com/kashishyadav2706)
+GitHub: [https://github.com/kashishyadav2706](https://github.com/kashishyadav2706)
 
 ---
 
